@@ -1,6 +1,23 @@
 # Parkly
 
-This project was generated using [Angular CLI](https://github.com/angular/angular-cli) version 21.2.2.
+[![Firebase Deployment](https://img.shields.io/badge/Firebase-Project-orange.svg)](https://parkly-59b18.web.app)
+
+Parkly es una aplicación minimalista y funcional para la gestión de parqueaderos en tiempo real, construida con **Angular v21** y **Tailwind CSS v4**.
+
+## 🚀 Demo en Vivo
+Puedes acceder a la aplicación desplegada aquí: [https://parkly-59b18.web.app](https://parkly-59b18.web.app)
+
+## 📸 Vista Previa
+![Dashboard de Parkly](screenshot.png)
+
+## Características Principales
+- **Gestión en Tiempo Real**: Registro de entrada y salida de vehículos (Carros y Motos).
+- **Cálculo de Tarifas**: Lógica automatizada basada en tiempos de estadía.
+- **Tarifa Especial Día**: Opción para vehículos con tarifa plana diaria ($15,000).
+- **Dashboard Intuitivo**: Resumen de recaudo y flujo de vehículos diario.
+- **Diseño Moderno**: Interfaz limpia, responsiva y con modo oscuro/claro optimizado.
+
+---
 
 ## Development server
 
