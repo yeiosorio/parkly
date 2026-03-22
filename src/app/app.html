@@ -1,0 +1,79 @@
+<main
+  class="min-h-screen relative flex flex-col items-center justify-center p-4 overflow-hidden bg-slate-900 text-white"
+>
+  <!-- Decorative background blobs -->
+  <div
+    class="absolute top[-10%] left-[-10%] w-96 h-96 bg-indigo-500/30 rounded-full mix-blend-screen filter blur-[100px] animate-pulse"
+  ></div>
+  <div
+    class="absolute bottom-[-10%] right-[-10%] w-[500px] h-[500px] bg-emerald-500/20 rounded-full mix-blend-screen filter blur-[120px] animation-delay-2000"
+  ></div>
+
+  <!-- Main Glassmorphism Card -->
+  <div
+    class="relative z-10 w-full max-w-lg p-10 rounded-[2.5rem] bg-white/5 backdrop-blur-xl border border-white/10 shadow-[0_8px_32px_0_rgba(0,0,0,0.3)] transition-transform hover:scale-[1.02] duration-500 flex flex-col items-center text-center"
+  >
+    <!-- Icon/Logo Area -->
+    <div
+      class="mb-8 p-4 rounded-3xl bg-gradient-to-br from-indigo-500 to-emerald-400 shadow-[0_0_40px_rgba(99,102,241,0.4)]"
+    >
+      <svg
+        xmlns="http://www.w3.org/2000/svg"
+        fill="none"
+        viewBox="0 0 24 24"
+        stroke-width="2"
+        stroke="currentColor"
+        class="w-12 h-12 text-white"
+      >
+        <path
+          stroke-linecap="round"
+          stroke-linejoin="round"
+          d="M15 10.5a3 3 0 1 1-6 0 3 3 0 0 1 6 0Z"
+        />
+        <path
+          stroke-linecap="round"
+          stroke-linejoin="round"
+          d="M19.5 10.5c0 7.142-7.5 11.25-7.5 11.25S4.5 17.642 4.5 10.5a7.5 7.5 0 1 1 15 0Z"
+        />
+      </svg>
+    </div>
+
+    <h1
+      class="text-5xl font-extrabold tracking-tight mb-4 bg-clip-text text-transparent bg-gradient-to-r from-white via-indigo-100 to-indigo-300"
+    >
+      Parkly
+    </h1>
+
+    <p class="text-slate-300 text-lg mb-10 font-light leading-relaxed">
+      Tu nueva aplicación Angular configurada con la elegancia de<br />
+      <strong class="font-semibold text-emerald-400">Tailwind CSS</strong>
+    </p>
+
+    <button
+      class="group relative inline-flex items-center justify-center px-8 py-3.5 text-base font-bold text-white transition-all duration-200 bg-indigo-600 border border-transparent rounded-full hover:bg-indigo-700 hover:shadow-[0_0_20px_rgba(79,70,229,0.5)] focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-600 focus:ring-offset-slate-900 overflow-hidden text-center w-full max-w-[200px]"
+    >
+      <span class="relative z-10 transition-transform duration-300 group-hover:-translate-x-2"
+        >Empezar</span
+      >
+      <svg
+        class="absolute right-6 z-10 w-5 h-5 text-white transition-all duration-300 opacity-0 group-hover:opacity-100 group-hover:translate-x-2"
+        fill="none"
+        stroke="currentColor"
+        viewBox="0 0 24 24"
+        xmlns="http://www.w3.org/2000/svg"
+      >
+        <path
+          stroke-linecap="round"
+          stroke-linejoin="round"
+          stroke-width="2.5"
+          d="M14 5l7 7m0 0l-7 7m7-7H3"
+        ></path>
+      </svg>
+      <!-- Background hover effect -->
+      <div
+        class="absolute inset-0 h-full w-full scale-0 rounded-full transition-all duration-300 ease-out group-hover:scale-100 bg-indigo-500"
+      ></div>
+    </button>
+  </div>
+</main>
+<router-outlet />
