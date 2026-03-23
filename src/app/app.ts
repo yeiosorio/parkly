@@ -5,6 +5,7 @@ import { DashboardComponent } from './features/parking/dashboard/dashboard.compo
   selector: 'app-root',
   standalone: true,
   imports: [DashboardComponent],
-  template: `<app-dashboard />`,
+  templateUrl: './app.html',
+  styleUrl: './app.scss'
 })
 export class App {}
