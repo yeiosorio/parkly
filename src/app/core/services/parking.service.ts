@@ -1,14 +1,14 @@
 import { effect, Injectable, signal, PLATFORM_ID, inject } from '@angular/core';
 import { isPlatformBrowser } from '@angular/common';
 import { Vehicle, TARIFFS, VehicleType } from '../models/vehicle.model';
-import { 
-  Firestore, 
-  collection, 
-  collectionData, 
-  doc, 
-  setDoc, 
-  updateDoc, 
-  query, 
+import {
+  Firestore,
+  collection,
+  collectionData,
+  doc,
+  setDoc,
+  updateDoc,
+  query,
   where,
   onSnapshot,
   deleteDoc
@@ -40,7 +40,7 @@ export class ParkingService {
 
   constructor() {
     this._loadFromStorage();
-    
+
     // Initial sync will be triggered by effect if we use one, 
     // or manually here for the first time.
     this._initFirestoreSync();
@@ -67,7 +67,7 @@ export class ParkingService {
 
   private _initFirestoreSync(): void {
     const dateStr = this.selectedDateSig();
-    
+
     // To query correctly, we find the start and end of the local day in UTC
     const [y, m, d] = dateStr.split('-').map(Number);
     const localStart = new Date(y, m - 1, d, 0, 0, 0);
@@ -79,7 +79,7 @@ export class ParkingService {
     // Sync vehicles from Firestore filtered by entryTime of the selected day
     const activeRef = collection(this.firestore, this.ACTIVE_COLLECTION);
     const q = query(
-      activeRef, 
+      activeRef,
       where('entryTime', '>=', startOfDay),
       where('entryTime', '<=', endOfDay)
     );
@@ -105,7 +105,7 @@ export class ParkingService {
       return;
     }
     const vehicle: Vehicle = { plate: p, type, entryTime: new Date().toISOString(), allDay };
-    
+
     // Optimistic update (optional, since onSnapshot will catch it)
     this.activeVehiclesSig.update(list => [...list, vehicle]);
 
@@ -129,7 +129,7 @@ export class ParkingService {
     } else {
       const fullHours = Math.floor(totalMinutes / 60);
       const extraMinutes = totalMinutes % 60;
-      
+
       // Charge 1st hour always even if < 10min. 
       // Grace period of 10min only applies from 2nd hour onwards.
       let hoursToCharge = 0;
@@ -156,7 +156,7 @@ export class ParkingService {
     await setDoc(activeDocRef, updatedVehicle);
     // Also record in history
     await setDoc(pastDocRef, updatedVehicle);
-    
+
     // We dont call deleteDoc(activeDocRef) here because the user wants to see the result
   }
 
