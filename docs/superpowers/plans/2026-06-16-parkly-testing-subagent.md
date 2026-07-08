@@ -1,3 +1,29 @@
+# Parkly Testing Subagent Implementation Plan
+
+> **For agentic workers:** REQUIRED SUB-SKILL: Use superpowers:subagent-driven-development (recommended) or superpowers:executing-plans to implement this plan task-by-task. Steps use checkbox (`- [ ]`) syntax for tracking.
+
+**Goal:** Create an OpenCode Skill + Agent specialized in testing for parkly (Angular 21 + Vitest + jsdom + Firebase).
+
+**Architecture:** Skill at `.opencode/skills/parkly-testing/SKILL.md` as source of truth for patterns/conventions; Agent at `.opencode/agents/parkly-testing.md` as subagent that references the skill; `opencode.json` updated to register the skills path.
+
+**Tech Stack:** Vitest 4, Angular 21, jsdom 28, Firebase 12, OpenCode
+
+---
+
+### Task 1: Create skill directory and SKILL.md
+
+**Files:**
+- Create: `.opencode/skills/parkly-testing/SKILL.md`
+
+- [ ] **Step 1: Create directory**
+
+```bash
+New-Item -ItemType Directory -Path ".opencode/skills/parkly-testing" -Force
+```
+
+- [ ] **Step 2: Write SKILL.md**
+
+```markdown
 ---
 name: parkly-testing
 description: Use when the user asks to write tests, run test suite, diagnose failures, check coverage, or any testing task in parkly. Keywords: test, spec, ng test, cobertura, fallo, vitest, spec.ts, unit test, Vitest, TestBed.
@@ -147,3 +173,93 @@ Tareas simples para hacer directo: agregar un caso a un spec existente, corregir
 | Un archivo | `npx ng test --watch=false --include=src/app/.../...spec.ts` |
 | Filtrar por nombre | `npx ng test --watch=false -t "ParkingService"` |
 | Cobertura | `npx ng test --watch=false --coverage` |
+```
+
+### Task 2: Create agent file
+
+**Files:**
+- Create: `.opencode/agents/parkly-testing.md`
+
+- [ ] **Step 1: Write agent frontmatter and prompt**
+
+```markdown
+---
+description: >
+  Subagente especializado en escribir, ejecutar y corregir tests del proyecto
+  parkly (Angular 21 + Vitest + jsdom + Firebase). Úsalo cuando necesites
+  crear specs desde cero, diagnosticar fallos complejos, o iterar hasta
+  que la suite pase.
+mode: subagent
+permission:
+  edit: allow
+  bash: allow
+---
+
+Eres un agente especializado en testing para el proyecto parkly.
+
+## Instrucciones
+
+1. **Carga la skill parkly-testing** y sigue todas sus convenciones (mock de Firestore, localStorage, timers, estilo AAA, nombres en español).
+2. **Identifica el SUT**: busca el archivo fuente y su spec correspondiente.
+3. **Si no existe spec**, créalo como `*.spec.ts` junto al fuente siguiendo los patrones de la skill.
+4. **Ejecuta los tests** con:
+   ```
+   npx ng test --watch=false --include=<ruta-del-spec>
+   ```
+5. **Si fallan**: lee el output del error, corrige el código o el spec con el mínimo diff necesario, y re-ejecuta. Repite hasta verde.
+6. **Si el error es de compilación** (TypeScript), corrige el tipo antes de asumir que es error de lógica.
+7. **PowerShell**: usa `;` en vez de `&&` para encadenar comandos.
+8. **Reporta al final**: archivos tocados, comando final ejecutado, N tests passed/fallidos, cobertura si aplica.
+```
+
+### Task 3: Update opencode.json
+
+**Files:**
+- Modify: `.opencode/opencode.json`
+
+- [ ] **Step 1: Add skills.paths to opencode.json**
+
+Current content:
+```json
+{
+  "$schema": "https://opencode.ai/config.json",
+  "plugin": [
+    "superpowers@git+https://github.com/obra/superpowers.git"
+  ]
+}
+```
+
+New content:
+```json
+{
+  "$schema": "https://opencode.ai/config.json",
+  "plugin": [
+    "superpowers@git+https://github.com/obra/superpowers.git"
+  ],
+  "skills": {
+    "paths": [".opencode/skills"]
+  }
+}
+```
+
+### Task 4: Verify the setup
+
+**Files:** (no changes)
+
+- [ ] **Step 1: Verify skill is loadable**
+
+Check that the skill directory structure is correct:
+```
+.opencode/
+├── opencode.json
+├── skills/
+│   └── parkly-testing/
+│       └── SKILL.md
+└── agents/
+    └── parkly-testing.md
+```
+
+- [ ] **Step 2: Verify tests still pass**
+
+Run: `npx ng test --watch=false`
+Expected: all existing tests pass (at minimum the App smoke test)

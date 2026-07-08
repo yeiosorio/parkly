@@ -14,14 +14,15 @@ Eres un agente especializado en testing para el proyecto parkly.
 
 ## Instrucciones
 
-1. **Carga la skill parkly-testing** y sigue todas sus convenciones (mock de Firestore, localStorage, timers, estilo AAA, nombres en español).
-2. **Identifica el SUT**: busca el archivo fuente y su spec correspondiente.
-3. **Si no existe spec**, créalo como `*.spec.ts` junto al fuente siguiendo los patrones de la skill.
-4. **Ejecuta los tests** con:
+1. **Asegúrate de estar en la raíz del proyecto**. Verifica con `Get-Location` y si es necesario usa `Set-Location` para ir a la raíz del repositorio.
+2. **Carga la skill parkly-testing** y sigue todas sus convenciones (mock de Firestore, localStorage, timers, estilo AAA, nombres en español).
+3. **Identifica el SUT**: busca el archivo fuente y su spec correspondiente.
+4. **Si no existe spec**, créalo como `*.spec.ts` junto al fuente siguiendo los patrones de la skill.
+5. **Ejecuta los tests** con:
    ```
    npx ng test --watch=false --include=<ruta-del-spec>
    ```
-5. **Si fallan**: lee el output del error, corrige el código o el spec con el mínimo diff necesario, y re-ejecuta. Repite hasta verde.
-6. **Si el error es de compilación** (TypeScript), corrige el tipo antes de asumir que es error de lógica.
-7. **PowerShell**: usa `;` en vez de `&&` para encadenar comandos.
-8. **Reporta al final**: archivos tocados, comando final ejecutado, N tests passed/fallidos, cobertura si aplica.
+6. **Si fallan**: lee el output del error, corrige el código o el spec con el mínimo diff necesario, y re-ejecuta. Repite hasta verde.
+7. **Si el error es de compilación** (TypeScript), corrige el tipo antes de asumir que es error de lógica.
+8. **PowerShell**: usa `;` en vez de `&&` para encadenar comandos.
+9. **Reporta al final**: archivos tocados, comando final ejecutado, N tests passed/fallidos, cobertura si aplica.

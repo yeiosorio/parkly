@@ -1,34 +1,20 @@
 import { Page } from '@playwright/test';
 
 /**
- * Intercepta peticiones a Firestore REST API y devuelve datos mockeados.
+ * Bloquea todas las llamadas de red a Firestore para evitar conexiones reales.
+ * Las escrituras (commit) reciben respuesta 200 OK para que el SDK no falle.
  */
-export async function mockFirestore(page: Page, data: {
-  activeVehicles?: Record<string, unknown>[];
-  pastVehicles?: Record<string, unknown>[];
-}) {
+export async function mockFirestore(page: Page) {
   await page.route('**/firestore.googleapis.com/**', async (route) => {
     const url = route.request().url();
 
-    if (url.includes('activeVehicles')) {
+    if (url.includes(':commit')) {
       await route.fulfill({
         status: 200,
         contentType: 'application/json',
         body: JSON.stringify({
-          documents: (data.activeVehicles ?? []).map((v, i) => ({
-            name: `projects/parkly/databases/(default)/documents/activeVehicles/doc_${i}`,
-            fields: {
-              plate: { stringValue: v.plate ?? '' },
-              type: { stringValue: v.type ?? 'Carro' },
-              entryTime: { timestampValue: v.entryTime ?? new Date().toISOString() },
-              allDay: { booleanValue: v.allDay ?? false },
-              ...(v.exitTime ? { exitTime: { timestampValue: v.exitTime } } : {}),
-              ...(v.totalToPay ? { totalToPay: { integerValue: v.totalToPay } } : {}),
-              ...(v.totalTimeStr ? { totalTimeStr: { stringValue: v.totalTimeStr } } : {}),
-            },
-            createTime: new Date().toISOString(),
-            updateTime: new Date().toISOString(),
-          })),
+          writeResults: [{ updateTime: new Date().toISOString() }],
+          commitTime: new Date().toISOString(),
         }),
       });
       return;
@@ -37,13 +23,13 @@ export async function mockFirestore(page: Page, data: {
     await route.fulfill({
       status: 200,
       contentType: 'application/json',
-      body: JSON.stringify({ documents: [] }),
+      body: '{}',
     });
   });
 }
 
 /**
- * Espera a que la app Angular termine de bootstrap.
+ * Navega al dashboard y espera a que Angular termine de renderizar.
  */
 export async function waitForApp(page: Page) {
   await page.goto('/');
@@ -51,7 +37,7 @@ export async function waitForApp(page: Page) {
 }
 
 /**
- * Toma un screenshot y lo guarda con nombre descriptivo.
+ * Toma un screenshot full-page.
  */
 export async function screenshot(page: Page, name: string) {
   await page.screenshot({ path: `e2e/screenshots/${name}.png`, fullPage: true });
